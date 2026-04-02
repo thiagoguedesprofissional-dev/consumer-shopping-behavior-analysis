@@ -4,7 +4,7 @@ Consumer Insights & Shopping Behavior Analysis 🛒📊
 Este projeto apresenta uma análise de ponta a ponta sobre o comportamento de consumo em uma base de dados de varejo com 3.900 registros. O objetivo foi transformar dados brutos em inteligência de negócio, focando em métricas de retenção, sazonalidade e otimização de faturamento.
 
 A análise foi estruturada para responder a 18 perguntas estratégicas, cobrindo desde a performance demográfica até o cálculo de Lifetime Value (LTV) e ciclos de recompra.
-🛠️ Tecnologias e Ferramentas
+- Tecnologias e Ferramentas
 
     SQL: Extração de dados, limpeza e criação de métricas complexas (CTE's, Case When, Agregações).
 
@@ -14,7 +14,7 @@ A análise foi estruturada para responder a 18 perguntas estratégicas, cobrindo
 
     Excel/CSV: Fonte de dados original.
 
-📈 Principais Insights Extraídos
+- Principais Insights Extraídos
 
     Concentração de Receita: O público masculino representa mais de 67% do faturamento total, indicando uma oportunidade de expansão no nicho feminino.
 
@@ -24,7 +24,7 @@ A análise foi estruturada para responder a 18 perguntas estratégicas, cobrindo
 
     Sazonalidade: Picos de vendas distintos entre gêneros (Outono para mulheres, Inverno para homens) permitem calendários de marketing mais assertivos.
 
-📁 Estrutura do Repositório
+- Estrutura do Repositório
 
     /SQL_Queries: Contém o script com as 18 consultas estruturadas.
 
@@ -34,11 +34,6 @@ A análise foi estruturada para responder a 18 perguntas estratégicas, cobrindo
 
     /Dataset: Base de dados utilizada no projeto.
 
-🚀 Como Visualizar
-
-    Relatório Estratégico: [Link para o seu PDF aqui]
-
-    Dashboard Interativo: [Link do Power BI Publish to Web aqui]
 
 Contato
 
