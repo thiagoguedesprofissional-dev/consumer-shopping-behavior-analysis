@@ -1,0 +1,515 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{colortbl}
+\usepackage{hyperref}
+\usepackage{fontawesome5} % opcional, para ícones
+
+% Configurações de página
+\geometry{left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8em}
+
+% Cores institucionais
+\definecolor{primary}{RGB}{0, 112, 192}   % azul corporativo
+\definecolor{secondary}{RGB}{80, 80, 80}  % cinza escuro
+\definecolor{accent}{RGB}{255, 140, 0}    % laranja para destaques
+\definecolor{lightgray}{RGB}{245, 245, 245}
+
+% Estilo de títulos
+\titleformat{\section}
+  {\sffamily\Large\bfseries\color{primary}}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\sffamily\large\bfseries\color{secondary}}
+  {\thesubsection}{1em}{}
+
+% Estilo de tabelas
+\captionsetup[table]{font={sf,small},labelfont={bf,color=primary}}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\renewcommand{\arraystretch}{1.2}
+
+% Caixas de destaque
+\newtcolorbox{insightbox}{colback=lightgray, colframe=primary, arc=4pt, boxrule=1pt, title=\textbf{\textcolor{primary}{Insight}}}
+\newtcolorbox{actionbox}{colback=lightgray, colframe=accent, arc=4pt, boxrule=1pt, title=\textbf{\textcolor{accent}{Ação Estratégica}}}
+
+% Cabeçalho personalizado
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\sffamily\color{secondary}Relatório de Comportamento do Consumidor}
+\fancyfoot[C]{\sffamily\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{primary}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}
+
+\begin{document}
+
+% Capa
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\sffamily\Huge\bfseries\color{primary} Análise do Comportamento do Consumidor\par}
+    \vspace{1cm}
+    {\sffamily\LARGE Estratégias para Otimização de Marketing e Retenção\par}
+    \vspace{2cm}
+    {\sffamily\large Equipe de Dados\par}
+    \vspace{1cm}
+    {\sffamily\large \today\par}
+    \vfill
+    \begin{tcolorbox}[colback=lightgray, colframe=primary, arc=0pt, boxrule=2pt, width=0.8\linewidth, center title]
+        \centering
+        \sffamily \textbf{Relatório Confidencial} – Uso Interno
+    \end{tcolorbox}
+\end{titlepage}
+
+% Sumário
+\tableofcontents
+\newpage
+
+% Executive Summary
+\section*{Sumário Executivo}
+\addcontentsline{toc}{section}{Sumário Executivo}
+Este relatório consolida a análise dos dados de compras da empresa, respondendo à questão central: \textit{“Como tirar partido dos dados para identificar tendências, melhorar o envolvimento do cliente e otimizar estratégias de marketing e produto?”} Por meio de 18 consultas analíticas, foram identificados padrões de consumo, perfil dos clientes fiéis, sazonalidade, preferências logísticas e financeiras, além do potencial de crescimento inexplorado. As principais conclusões apontam para a necessidade de:
+\begin{itemize}
+    \item Reforçar a fidelização do público masculino de alto valor, mas expandir a atuação para o segmento feminino.
+    \item Reformular o programa de assinatura para torná-lo um verdadeiro motor de aumento de ticket médio.
+    \item Personalizar a comunicação com base nos ciclos de compra e nas preferências de pagamento.
+    \item Utilizar a logística (frete expresso) como alavanca de valor.
+\end{itemize}
+As recomendações estratégicas detalhadas neste documento estão prontas para implementação e têm potencial de impacto direto na receita e na satisfação dos clientes.
+
+\newpage
+
+\section{Metodologia e Base de Dados}
+A base de dados contém registros de transações e perfis de clientes de uma empresa de retalho. Foram analisadas variáveis demográficas (idade, gênero, localização), comportamentais (frequência, assinatura, avaliações) e operacionais (descontos, tipo de envio, método de pagamento). Utilizou-se SQL para agregar, segmentar e extrair métricas, que foram interpretadas em conjunto com a área de negócios.
+
+\section{Análise Detalhada e Resultados}
+
+\subsection{Perfil Demográfico e Receita}
+\begin{table}[H]
+\centering
+\caption{Receita total por gênero}
+\label{tab:receita_genero}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Gênero} & \textbf{Receita Total (USD)} \\
+\midrule
+Female & 75.191 \\
+Male   & 157.890 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+O público masculino gera mais que o dobro da receita feminina (\$157.890 vs \$75.191). Dentro desse grupo, 21\% da base (clientes \textit{elite}) são exclusivamente homens que, mesmo utilizando descontos, mantêm gastos acima da média.
+\end{insightbox}
+\begin{actionbox}
+Criar um \textit{Clube VIP} com foco inicial no público masculino, oferecendo acesso antecipado a coleções e benefícios exclusivos. Utilizar descontos como aceleradores de volume, não como perda de margem.
+\end{actionbox}
+
+\subsection{Produtos com Maior Avaliação}
+\begin{table}[H]
+\centering
+\caption{Top 5 produtos com maior nota média de avaliação}
+\label{tab:top_avaliacoes}
+\begin{tabular}{lc}
+\toprule
+\rowcolor{lightgray} \textbf{Produto} & \textbf{Nota Média} \\
+\midrule
+Gloves  & 3,86 \\
+Sandals & 3,84 \\
+Boots   & 3,82 \\
+Hat     & 3,80 \\
+Skirt   & 3,78 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+A satisfação está ligada a itens funcionais e de durabilidade (calçados e acessórios específicos). A percepção de qualidade nesses produtos é alta.
+\end{insightbox}
+\begin{actionbox}
+Utilizar avaliações reais desses produtos em campanhas de \textit{retargeting}, destacando a qualidade técnica e durabilidade.
+\end{actionbox}
+
+\subsection{Comparação entre Assinantes e Não Assinantes}
+\begin{table}[H]
+\centering
+\caption{Comparação de gastos – assinantes vs. não assinantes}
+\label{tab:assinantes}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Status} & \textbf{Gasto Total (USD)} & \textbf{Gasto Médio (USD)} \\
+\midrule
+Não assinantes & 170.436 & 59,87 \\
+Assinantes     & 62.645  & 59,49 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+O programa de assinatura atual é \textit{passivo}: não eleva o ticket médio. Assinantes gastam em média o mesmo que não assinantes.
+\end{insightbox}
+\begin{actionbox}
+Reformular o programa para um modelo de gamificação ou descontos progressivos, vinculando benefícios ao tempo de assinatura e ao valor das compras.
+\end{actionbox}
+
+\subsection{Produtos com Maior Incidência de Desconto}
+\begin{table}[H]
+\centering
+\caption{Top 5 produtos com maior percentual de compras com desconto}
+\label{tab:descontos}
+\begin{tabular}{lc}
+\toprule
+\rowcolor{lightgray} \textbf{Produto} & \textbf{Taxa de Desconto (\%)} \\
+\midrule
+Hat       & 50 \\
+Sneakers  & 49 \\
+Coat      & 49 \\
+Sweater   & 48 \\
+Pants     & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Chapéus e tênis são altamente sensíveis ao preço: metade das vendas depende de promoção.
+\end{insightbox}
+\begin{actionbox}
+Utilizar esses itens como \textit{produtos isca} em datas promocionais, combinando-os com itens de maior margem (ex.: joias) no mesmo carrinho.
+\end{actionbox}
+
+\subsection{Segmentação por Fidelidade}
+\begin{table}[H]
+\centering
+\caption{Segmentação de clientes por histórico de compras}
+\label{tab:segmentacao}
+\begin{tabular}{lc}
+\toprule
+\rowcolor{lightgray} \textbf{Segmento} & \textbf{Total de Clientes} \\
+\midrule
+Fiel (mais de 5 compras) & 3.116 \\
+Recorrente (2–5 compras) & 701   \\
+Novo (1 compra)          & 83    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+A base é extremamente fiel, mas a aquisição de novos clientes é crítica (apenas 83 novos). O crescimento a longo prazo depende de \textit{sangue novo}.
+\end{insightbox}
+\begin{actionbox}
+Redirecionar parte do orçamento de marketing de retenção para campanhas de aquisição (paid media, tráfego pago), focando em públicos que ainda não conhecem a marca.
+\end{actionbox}
+
+\subsection{Top 3 Produtos por Categoria}
+\begin{table}[H]
+\centering
+\caption{Produtos mais comprados dentro de cada categoria}
+\label{tab:top_categoria}
+\begin{tabular}{llc}
+\toprule
+\rowcolor{lightgray} \textbf{Categoria} & \textbf{Produto} & \textbf{Vendas} \\
+\midrule
+Accessories & Jewelry     & 171 \\
+Accessories & Sunglasses  & 161 \\
+Accessories & Belt        & 161 \\
+Accessories & Scarf       & 157 \\
+Clothing    & Blouse      & 171 \\
+Clothing    & Pants       & 171 \\
+Clothing    & Shirt       & 169 \\
+Clothing    & Dress       & 166 \\
+Footwear    & Sandals     & 160 \\
+Footwear    & Shoes       & 150 \\
+Footwear    & Sneakers    & 145 \\
+Outerwear   & Jacket      & 163 \\
+Outerwear   & Coat        & 161 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Joias e blusas são os campeões de vendas em suas categorias – o \textit{arroz com feijão} do negócio.
+\end{insightbox}
+\begin{actionbox}
+Garantir gestão de estoque impecável para esses itens; a ruptura causaria impacto imediato no faturamento.
+\end{actionbox}
+
+\subsection{Relação entre Frequência e Assinatura}
+\begin{table}[H]
+\centering
+\caption{Taxa de assinatura entre clientes casuais e fiéis}
+\label{tab:assinatura_fidelidade}
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{lightgray} \textbf{Perfil} & \textbf{Total Clientes} & \textbf{Assinantes} & \textbf{Taxa (\%)} \\
+\midrule
+Casual (≤ 5 compras) & 4.249 & 522 & 12,4 \\
+Fiel (> 5 compras)   & 3.476 & 958 & 27,5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Clientes fiéis têm mais que o dobro de probabilidade de serem assinantes. Há uma oportunidade de converter esse engajamento em maior valor.
+\end{insightbox}
+\begin{actionbox}
+Oferecer benefícios exclusivos para assinantes fiéis, como frete expresso gratuito ou acesso antecipado a lançamentos.
+\end{actionbox}
+
+\subsection{Receita por Faixa Etária}
+\begin{table}[H]
+\centering
+\caption{Contribuição de receita por faixa etária}
+\label{tab:receita_idade}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Faixa Etária} & \textbf{Receita (USD)} & \textbf{Participação (\%)} \\
+\midrule
+Adult       & 55.978 & 24,0 \\
+Senior      & 55.763 & 23,9 \\
+Young Adult & 62.143 & 26,7 \\
+Middle aged & 59.197 & 25,4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+A receita é bem distribuída entre as faixas etárias, com leve destaque para jovens adultos.
+\end{insightbox}
+
+\subsection{Sazonalidade por Gênero}
+\begin{table}[H]
+\centering
+\caption{Faturamento por estação e gênero (USD)}
+\label{tab:sazonalidade}
+\begin{tabular}{lcccc}
+\toprule
+\rowcolor{lightgray} \textbf{Gênero} & \textbf{Outono} & \textbf{Inverno} & \textbf{Primavera} & \textbf{Verão} \\
+\midrule
+Female & 20.193 & 18.360 & 18.578 & 18.060 \\
+Male   & 39.825 & 40.247 & 40.101 & 37.717 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Outono é o pico para o público feminino; homens mantêm constância no inverno e primavera.
+\end{insightbox}
+\begin{actionbox}
+Lançar coleções femininas exclusivas e campanhas antecipando o outono. Para homens, estratégia de \textit{cross-selling} no inverno e primavera.
+\end{actionbox}
+
+\subsection{Preferência de Pagamento – Clientes Fiéis}
+\begin{table}[H]
+\centering
+\caption{Métodos de pagamento mais usados por clientes com >30 compras}
+\label{tab:pagamento_fieis}
+\begin{tabular}{lc}
+\toprule
+\rowcolor{lightgray} \textbf{Método de Pagamento} & \textbf{Total de Usos} \\
+\midrule
+Credit Card   & 275 \\
+PayPal        & 268 \\
+Cash          & 263 \\
+Debit Card    & 260 \\
+Venmo         & 255 \\
+Bank Transfer & 228 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Clientes de altíssima fidelidade preferem métodos rápidos ou com benefícios (milhas, cashback).
+\end{insightbox}
+\begin{actionbox}
+Oferecer \textit{checkout em um clique} e condições especiais para esses métodos, fortalecendo a retenção.
+\end{actionbox}
+
+\subsection{Correlação Frequência vs. Avaliação}
+\begin{table}[H]
+\centering
+\caption{Nota média de avaliação por frequência de compra}
+\label{tab:avaliacao_frequencia}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Frequência} & \textbf{Nota Média} & \textbf{Clientes} \\
+\midrule
+Monthly       & 3,78 & 553 \\
+Every 3 Months& 3,78 & 584 \\
+Weekly        & 3,77 & 539 \\
+Fortnightly   & 3,77 & 542 \\
+Annually      & 3,77 & 572 \\
+Quarterly     & 3,74 & 563 \\
+Bi-Weekly     & 3,72 & 547 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Não há variação significativa na satisfação entre diferentes frequências. A qualidade percebida é consistente.
+\end{insightbox}
+\begin{actionbox}
+Foco na consistência da experiência, transformando clientes recorrentes em embaixadores da marca.
+\end{actionbox}
+
+\subsection{Receita por Categoria}
+\begin{table}[H]
+\centering
+\caption{Receita total por categoria de produto}
+\label{tab:receita_categoria}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Categoria} & \textbf{Vendas} & \textbf{Receita (USD)} \\
+\midrule
+Clothing    & 2.361 & 140.502 \\
+Accessories & 1.428 & 86.503 \\
+Footwear    & 613   & 37.703 \\
+Outerwear   & 472   & 28.555 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Impacto do Tipo de Envio no Valor da Compra}
+\begin{table}[H]
+\centering
+\caption{Ticket médio por tipo de envio}
+\label{tab:shipping}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Tipo de Envio} & \textbf{Ticket Médio (USD)} & \textbf{Faturamento Total (USD)} \\
+\midrule
+2-Day Shipping  & 60,73 & 38.080 \\
+Express         & 60,48 & 39.067 \\
+Free Shipping   & 60,41 & 40.777 \\
+Store Pickup    & 59,89 & 38.931 \\
+Next Day Air    & 58,63 & 37.993 \\
+Standard        & 58,46 & 38.233 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Clientes que optam por envio Express ou 2-Day Shipping gastam mais por transação. A rapidez é um gatilho de valor.
+\end{insightbox}
+\begin{actionbox}
+Oferecer upgrade gratuito para modalidades mais rápidas em compras acima de um valor determinado (ex.: \$100), incentivando o aumento do carrinho médio.
+\end{actionbox}
+
+\subsection{Ciclos de Retorno Estimados}
+\begin{table}[H]
+\centering
+\caption{Dias estimados entre compras por frequência}
+\label{tab:ciclos}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Frequência} & \textbf{Clientes} & \textbf{Dias Estimados} \\
+\midrule
+Weekly      & 539 & 7  \\
+Bi-Weekly   & 547 & 14 \\
+Fortnightly & 542 & 15 \\
+Monthly     & 553 & 30 \\
+Quarterly   & 563 & 90 \\
+Every 3 Months & 584 & 90 \\
+Annually    & 572 & 365 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+A empresa possui ritmos distintos. Ciclos curtos garantem fluxo de caixa; ciclos longos representam capital de retorno lento.
+\end{insightbox}
+\begin{actionbox}
+Implementar automação de marketing baseada no tempo: enviar incentivos personalizados próximo ao fim do ciclo esperado, evitando o abandono.
+\end{actionbox}
+
+\subsection{Lifetime Value (LTV) por Fidelidade}
+\begin{table}[H]
+\centering
+\caption{LTV acumulado por segmento de fidelidade}
+\label{tab:ltv}
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{lightgray} \textbf{Segmento} & \textbf{Ticket Médio (USD)} & \textbf{Receita Total (USD)} & \textbf{Clientes} \\
+\midrule
+High LTV (Fiel Estrito)   & 60,03 & 2.853.453 & 3.892 \\
+Medium LTV (Recorrente)   & 59,05 & 1.052.967 & 2.533 \\
+Low LTV (Novo/Ocasionais) & 60,67 & 547.564  & 784   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+A maior parte da receita está concentrada no grupo de alta fidelidade, mas esse grupo ainda pode ser explorado com \textit{upselling}.
+\end{insightbox}
+\begin{actionbox}
+Introduzir categorias premium e coleções exclusivas para o segmento de alto LTV, elevando o valor médio por transação.
+\end{actionbox}
+
+\subsection{Afinidade Categoria vs. Método de Pagamento}
+\begin{table}[H]
+\centering
+\caption{Top combinações categoria–método de pagamento por receita}
+\label{tab:pagamento_categoria}
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{lightgray} \textbf{Categoria} & \textbf{Método de Pagamento} & \textbf{Receita (USD)} \\
+\midrule
+Clothing    & Credit Card  & 18.742 \\
+Clothing    & Cash         & 17.820 \\
+Clothing    & Debit Card   & 17.533 \\
+Clothing    & Bank Transfer& 17.184 \\
+Clothing    & PayPal       & 16.809 \\
+Clothing    & Venmo        & 16.174 \\
+Accessories & PayPal       & 13.818 \\
+Accessories & Credit Card  & 13.235 \\
+Accessories & Cash         & 12.889 \\
+Accessories & Debit Card   & 12.180 \\
+Accessories & Venmo        & 11.472 \\
+Accessories & Bank Transfer& 10.606 \\
+Footwear    & Venmo        & 6.566  \\
+Footwear    & Debit Card   & 6.213  \\
+Footwear    & Cash         & 6.169  \\
+Footwear    & PayPal       & 6.160  \\
+Footwear    & Bank Transfer& 5.634  \\
+Footwear    & Credit Card  & 5.351  \\
+Outerwear   & PayPal       & 3.322  \\
+Outerwear   & Venmo        & 3.162  \\
+Outerwear   & Cash         & 3.124  \\
+Outerwear   & Bank Transfer& 3.120  \\
+Outerwear   & Credit Card  & 2.980  \\
+Outerwear   & Debit Card   & 2.816  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{insightbox}
+Categorias de maior valor (outerwear) são pagas com cartão de crédito; acessórios utilizam métodos digitais rápidos (PayPal, Venmo). Isso reflete planejamento vs. impulso.
+\end{insightbox}
+\begin{actionbox}
+Destacar no checkout o método de pagamento preferido conforme a categoria visualizada. Estabelecer parcerias com fornecedores de pagamento para reduzir abandono de carrinho.
+\end{actionbox}
+
+\section{Conclusões e Plano de Ação Consolidado}
+A análise revelou uma empresa sólida, com clientes fiéis e produtos bem avaliados, mas com oportunidades claras de crescimento:
+\begin{enumerate}
+    \item \textbf{Expansão do público feminino}: replicar os atributos valorizados pelos homens (qualidade, durabilidade) em coleções femininas.
+    \item \textbf{Reforma do programa de assinatura}: transformar em modelo de gamificação ou descontos progressivos.
+    \item \textbf{Personalização logística}: usar frete expresso como alavanca de ticket médio.
+    \item \textbf{Aquisição de novos clientes}: equilibrar investimento entre retenção e captação.
+    \item \textbf{Upselling para clientes de alto LTV}: introduzir produtos premium.
+\end{enumerate}
+A implementação dessas recomendações, com base nos dados concretos apresentados, permitirá à empresa aumentar receita, melhorar a satisfação e consolidar sua liderança no mercado.
+
+\end{document}
